@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MapperBase<T, Y> {
+public abstract class MapperBase<T, Y> {
 
     public List<T> entityListToModel(List<Y> list) {
         if (list == null) {
@@ -16,7 +16,5 @@ public class MapperBase<T, Y> {
                 .collect(Collectors.toList());
     }
 
-    public T toModel(Y entity) {
-        return null;
-    }
+    public abstract T toModel(Y entity);
 }

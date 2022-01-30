@@ -17,6 +17,9 @@ public class CustomUserDetails implements UserDetails {
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
     public static CustomUserDetails fromUserEntityToCustomUserDetails(UserEntity userEntity) {
+
+        System.out.println("\n\n\n ___ use it ___ \n\n\n");
+
         CustomUserDetails c = new CustomUserDetails();
         c.login = userEntity.getEmail();
         c.password = userEntity.getPassword();
