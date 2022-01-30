@@ -18,7 +18,7 @@ public class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    Long id;
 
     @CreationTimestamp
     LocalDateTime createdAt;
