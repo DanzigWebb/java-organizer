@@ -1,0 +1,12 @@
+.auth-form-wrapper {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+
+    left: 0;
+    width: 100%;
+    top: 0;
+    height: 100%;
+}
