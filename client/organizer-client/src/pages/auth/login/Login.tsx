@@ -4,10 +4,10 @@ import { Navigate } from 'react-router-dom';
 import { Form } from '../../../components/form/Form';
 import { FormError } from '../../../components/form/FormError';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { signin } from '../../../services/api/requests/apiAuthRequest';
 
 type Inputs = {
-    name: string;
-    email: string;
+    login: string;
     password: string;
 };
 
@@ -17,11 +17,17 @@ export const Login = () => {
         submitSuccess: false,
     });
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+    const {register, handleSubmit, formState: {errors, isValid}} = useForm<Inputs>();
 
-
-    const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
-
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const {login, password} = data;
+        try {
+            await signin({login, password});
+            setState({submitSuccess: isValid});
+        } catch (e) {
+            alert(e);
+        }
+    };
 
     if (state.submitSuccess) {
         return <Navigate to="/"/>;
@@ -33,28 +39,24 @@ export const Login = () => {
 
             <FormField>
                 <input
-                    placeholder="Имя"
+                    placeholder="Логин"
                     className="input"
-                    {...register("name", {required: true})}
+                    autoComplete="off"
+                    {...register('login', {required: true})}
                 />
 
-                <FormError>Required</FormError>
-            </FormField>
-
-            <FormField>
-                <input
-                    placeholder="Email"
-                    className="input"
-                    {...register("email", {required: true})}
-                />
+                {errors.login && <FormError>Required</FormError>}
             </FormField>
 
             <FormField>
                 <input
                     placeholder="Пароль"
                     className="input"
-                    {...register("password", {required: true})}
+                    autoComplete="off"
+                    {...register('password', {required: true})}
                 />
+
+                {errors.password && <FormError>Required</FormError>}
             </FormField>
 
             <br/>
