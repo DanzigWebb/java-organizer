@@ -5,6 +5,8 @@ import { Form } from '../../../components/form/Form';
 import { FormError } from '../../../components/form/FormError';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { signin } from '../../../services/api/requests/apiAuthRequest';
+import { Modal, ModalError } from '../../../components/modal';
+import { AxiosResponse } from 'axios';
 
 type Inputs = {
     login: string;
@@ -24,8 +26,10 @@ export const Login = () => {
         try {
             await signin({login, password});
             setState({submitSuccess: isValid});
-        } catch (e) {
-            alert(e);
+        } catch (e: any) {
+            const error: AxiosResponse = e.response;
+            const modalContent = <ModalError message={error.data.message}/>;
+            new Modal(modalContent).show();
         }
     };
 
@@ -45,7 +49,7 @@ export const Login = () => {
                     {...register('login', {required: true})}
                 />
 
-                {errors.login && <FormError>Required</FormError>}
+                <FormError isShow={!!errors.login}>Required</FormError>
             </FormField>
 
             <FormField>
@@ -56,7 +60,7 @@ export const Login = () => {
                     {...register('password', {required: true})}
                 />
 
-                {errors.password && <FormError>Required</FormError>}
+                <FormError isShow={!!errors.password}>Required</FormError>
             </FormField>
 
             <br/>
