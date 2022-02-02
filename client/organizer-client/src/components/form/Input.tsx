@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 type InputProps = {
     value?: string;
     placeholder?: string;
@@ -7,7 +9,7 @@ type InputProps = {
     onFocus?: () => void;
 }
 
-export const Input = (props: InputProps) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>((props: InputProps, ref) => {
 
     const {
         value = '',
@@ -19,6 +21,7 @@ export const Input = (props: InputProps) => {
 
     return (
         <input
+            ref={ref}
             className="input"
             placeholder={placeholder}
             value={value}
@@ -27,4 +30,4 @@ export const Input = (props: InputProps) => {
             onFocus={onFocus}
         />
     );
-};
+});
