@@ -1,16 +1,20 @@
 import { ReactNode } from 'react';
+import { SlideDownAnimation } from '../animations/SlideDownAnimation';
 
 type FormErrorProps = {
     children: ReactNode;
+    isShow: boolean;
 }
 
 export const FormError = (props: FormErrorProps) => {
 
-    const {children} = props;
+    const {children, isShow = false} = props;
 
     return (
-        <span className="form-control-error">
+        <SlideDownAnimation inProp={isShow} duration={100} length={4}>
+            <span className="form-control-error">
                 {children}
             </span>
+        </SlideDownAnimation>
     );
 };
