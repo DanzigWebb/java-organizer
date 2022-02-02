@@ -19,19 +19,17 @@ export const Login = () => {
         submitSuccess: false,
     });
 
-    const {register, handleSubmit, formState: {errors, isValid}} = useForm<Inputs>();
+    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        if (isValid) {
-            const {login, password} = data;
-            try {
-                await signin({login, password});
-                setState({submitSuccess: isValid});
-            } catch (e: any) {
-                const error: AxiosResponse = e.response;
-                const modalContent = <ModalError message={error.data.message}/>;
-                new Modal(modalContent).show();
-            }
+        const {login, password} = data;
+        try {
+            await signin({login, password});
+            setState({submitSuccess: true});
+        } catch (e: any) {
+            const error: AxiosResponse = e.response;
+            const modalContent = <ModalError message={error.data.message}/>;
+            new Modal(modalContent).show();
         }
     };
 
