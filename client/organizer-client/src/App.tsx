@@ -1,22 +1,14 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import './App.css';
-import { signin } from './services/api/requests/apiAuthRequest';
-import { LoginForm } from './pages/auth/login/LoginForm';
 
 function App() {
-    async function login() {
-        const login = 'alex@mail.com';
-        const password = '123456';
-
-        const response = await signin({login, password});
-        console.log(response);
-    }
-
     return (
-        <div className="App">
-            <LoginForm />
-        </div>
+        <main>
+            <Outlet/>
+        </main>
     );
 }
+
 
 export default App;
