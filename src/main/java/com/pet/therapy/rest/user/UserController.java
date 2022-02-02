@@ -1,17 +1,15 @@
 package com.pet.therapy.rest.user;
 
-import com.pet.therapy.db.entity.UserEntity;
+import com.pet.therapy.config.security.CustomUserDetails;
 import com.pet.therapy.rest.user.model.User;
-import com.pet.therapy.rest.user.model.UserSigninRequest;
-import com.pet.therapy.rest.user.model.UserSigninResponse;
-import com.pet.therapy.rest.user.model.UserSignupRequest;
-import jakarta.validation.Valid;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
-@RequestMapping("auth")
-@Validated
+@Controller
+@RequestMapping("api/v1/")
 public class UserController {
 
     private final UserService userService;
@@ -20,21 +18,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/sign-up")
+    @GetMapping("/profile")
     @ResponseBody
-    public User signup(@Valid @RequestBody UserSignupRequest request) {
-        var entity = new UserEntity();
-
-        entity.setName(request.getName());
-        entity.setEmail(request.getEmail());
-        entity.setPassword(request.getPassword());
-
-        return userService.create(entity);
-    }
-
-    @PostMapping("/sign-in")
-    @ResponseBody
-    public UserSigninResponse signin(@Valid @RequestBody UserSigninRequest request) {
-        return userService.signin(request.getLogin(), request.getPassword());
+    public User getProfile(
+            @AuthenticationPrincipal CustomUserDetails user
+    ) {
+        return userService.mappedUser(user.getUserEntity());
     }
 }

@@ -54,4 +54,8 @@ public class UserService {
 
         return new UserSigninResponse(token, user);
     }
+
+    public User mappedUser(UserEntity entity) {
+        return userMapper.toModel(entity);
+    }
 }
