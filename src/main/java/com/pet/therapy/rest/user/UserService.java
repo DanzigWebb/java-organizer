@@ -44,6 +44,11 @@ public class UserService {
 
     public UserSigninResponse signin(String login, String password) {
         var entity = getUserByLoginAndPassword(login, password);
+
+        if (entity == null) {
+            throw new UserNotFoundException();
+        }
+
         var user = userMapper.toModel(entity);
         var token = jwtProvider.generateToken(user.getEmail());
 
