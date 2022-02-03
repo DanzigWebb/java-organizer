@@ -29,8 +29,8 @@ export const SlideDownAnimation = (props: MenuAnimationProps) => {
     const transitionStyles: Partial<Record<TransitionStatus, Properties>> = {
         entering: {opacity: 1, transform: 'translateY(0)'},
         entered: {opacity: 1, transform: 'translateY(0)'},
-        exiting: {opacity: 0, transform: `translateY(-${length}px)`},
-        exited: {opacity: 0, transform: `translateY(-${length}px)`},
+        exiting: {opacity: 0, transform: `translateY(${length}px)`},
+        exited: {opacity: 0, transform: `translateY(${length}px)`},
     };
 
     return (

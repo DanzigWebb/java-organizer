@@ -14,8 +14,7 @@ export const ModalContainer = ({children, onClose}: ModalContainerProps) => {
     const [boxShow, setBoxShow] = useState(false);
 
     const duration = 140;
-
-    console.log(boxShow);
+    const length = 80;
 
     // Fixme подумать над тем, почему анимация иногда не проигрывается
     useLayoutEffect(() => {
@@ -36,7 +35,7 @@ export const ModalContainer = ({children, onClose}: ModalContainerProps) => {
         <ModalContext.Provider value={{onClose: onStartClose}}>
             <div className="modal modal-open" onClick={onStartClose}>
                 <div className="modal-content" onClick={e => e.stopPropagation()}>
-                    <SlideDownAnimation key={0} inProp={boxShow} duration={duration}>
+                    <SlideDownAnimation key={0} inProp={boxShow} duration={duration} length={length}>
                         {children}
                     </SlideDownAnimation>
                 </div>
