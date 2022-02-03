@@ -1,18 +1,20 @@
 import { ApiUrlsEnum } from '../apiUrls';
 import httpClient from '../httpClient';
 
+interface UserInterface {
+    email: string;
+    id: string;
+    name: string;
+}
+
 interface SigninData {
     login: string;
     password: string;
 }
 
-interface SigninDataResponse {
+export interface SigninDataResponse {
     token: string;
-    user: {
-        email: string;
-        id: string;
-        name: string;
-    };
+    user: UserInterface;
 }
 
 export const signin = async (login: SigninData) => {
@@ -27,6 +29,11 @@ interface SignupData {
     password: string;
 }
 
-export const signup = async (registration: SignupData) => {
+export const signup = (registration: SignupData) => {
     return httpClient.post(ApiUrlsEnum.SIGNUP, registration);
 };
+
+export const getProfile = () => {
+    return httpClient.get(ApiUrlsEnum.PROFILE);
+};
+
