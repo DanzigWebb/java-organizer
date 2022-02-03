@@ -43,7 +43,7 @@ public class CustomUserDetails implements UserDetails {
         return login;
     }
 
-    public UserEntity getUserEntity() {
+    public UserEntity getEntity() {
         return userEntity;
     }
 

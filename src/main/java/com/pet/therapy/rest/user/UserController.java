@@ -23,6 +23,6 @@ public class UserController {
     public User getProfile(
             @AuthenticationPrincipal CustomUserDetails user
     ) {
-        return userService.mappedUser(user.getUserEntity());
+        return userService.mappedUser(user.getEntity());
     }
 }
