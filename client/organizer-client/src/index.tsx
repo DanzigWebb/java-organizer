@@ -11,12 +11,15 @@ import {
 import Home from './pages/home/Home';
 import { AuthFormWrapper } from './pages/auth/AuthFormWrapper';
 import { Login } from './pages/auth/login/Login';
+import { CalendarPage } from './pages/calendar/CalendarPage';
 
 ReactDOM.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<App/>}>
-                <Route index element={<Home/>}/>
+                <Route path="/" element={<Home/>}>
+                    <Route path="calendar" element={<CalendarPage/>}/>
+                </Route>
                 <Route path="auth" element={<AuthFormWrapper/>}>
                     <Route path="login" element={<Login/>}/>
                 </Route>
