@@ -7,7 +7,7 @@ export default () => {
 
     useEffect(() => {
         getProfile().then(data => {
-            console.log(data);
+            // console.log(data);
         })
     }, [])
 

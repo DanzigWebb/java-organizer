@@ -5,7 +5,3 @@ export interface DiaryItemsType {
     reaction: string;
     bodySensation: string;
 }
-
-export interface DiaryType extends DiaryItemsType {
-    day: Date;
-}

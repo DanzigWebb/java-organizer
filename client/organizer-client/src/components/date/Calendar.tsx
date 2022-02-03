@@ -13,8 +13,8 @@ dayjs.locale('ru');
 
 type CalendarProps = {
     month?: Dayjs;
-    onNextMonthSelect?: () => void;
-    onPrevMonthSelect?: () => void;
+    onNextMonthSelect?: (month: Dayjs) => void;
+    onPrevMonthSelect?: (month: Dayjs) => void;
     onSelectDay?: (day: DayModel) => void;
 }
 
@@ -30,13 +30,15 @@ export const Calendar = (props: CalendarProps) => {
     const [currentMonth, setMonth] = useState(month);
 
     function nextMonth() {
-        setMonth(currentMonth.add(1, 'month'));
-        onNextMonthSelect();
+        const prevMonth = currentMonth.add(1, 'month');
+        setMonth(prevMonth);
+        onNextMonthSelect(prevMonth);
     }
 
     function prevMonth() {
-        setMonth(currentMonth.subtract(1, 'month'));
-        onPrevMonthSelect();
+        const nextMonth = currentMonth.subtract(1, 'month');
+        setMonth(nextMonth);
+        onPrevMonthSelect(nextMonth);
     }
 
     function daySelect(day: DayModel) {

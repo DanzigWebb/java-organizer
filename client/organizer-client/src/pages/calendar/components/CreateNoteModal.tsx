@@ -5,6 +5,7 @@ import { FormError } from '../../../components/form/FormError';
 import React, { useContext } from 'react';
 import { ModalContext } from '../../../components/modal';
 import { DayModel } from '../../../components/date/models/day.model';
+import { createDiary, DiaryDto } from '../../../services/api/requests/apiDiary';
 
 type Inputs = DiaryItemsType;
 
@@ -20,8 +21,10 @@ export const CreateNoteModal = (props: CreateNoteModalType) => {
     const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
     const context = useContext(ModalContext);
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        onCreateSubmit(data);
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const dto: DiaryDto = {day: day.date.toDate(), ...data};
+        const response = await createDiary(dto);
+        onCreateSubmit(response.data);
         context.onClose();
     };
 
