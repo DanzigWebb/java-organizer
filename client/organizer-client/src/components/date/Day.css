@@ -1,0 +1,37 @@
+.day {
+    position: relative;
+    cursor: pointer;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    transition: .14s ease-in all;
+}
+
+.day.disabled {
+     opacity: .2;
+     cursor: not-allowed;
+ }
+
+.day:hover:not(.disabled) {
+     opacity: .8;
+     transform: translateY(-5px);
+ }
+
+.day-status {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     height: 1rem;
+
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+.day-wrapper {
+    border: 1px solid rgba(0, 0, 0, .2)
+}
