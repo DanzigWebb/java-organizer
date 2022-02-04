@@ -1,17 +1,23 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { DayModel } from './models/day.model';
 import { Day } from './Day';
+import { DiaryDto } from '../../services/api/requests/apiDiary';
 
 type MonthProps = {
     month: Dayjs;
     onSelectDay: (day: DayModel) => void;
+    notes?: Map<number, DiaryDto>;
 }
 
 export const Month = (props: MonthProps) => {
 
-    const {month, onSelectDay} = props;
+    const {
+        month,
+        onSelectDay,
+        notes = new Map()
+    } = props;
 
-    const days = getMonthDays(month);
+    const days = getMonthDays(month, notes);
 
     return (
         <div className="month w-full flex flex-col flex-1">
@@ -38,16 +44,16 @@ export const Month = (props: MonthProps) => {
     );
 };
 
-function getMonthDays(month: Dayjs) {
+function getMonthDays(month: Dayjs, notesMap = new Map<number, DiaryDto[]>()) {
     const clone = month.clone();
-    const monthDays = getDaysOfMonth(clone);
-    const daysBefore = getDaysBefore(monthDays[0].date);
-    const daysAfter = getDaysAfter(monthDays[monthDays.length - 1].date);
+    const monthDays = getDaysOfMonth(clone, notesMap);
+    const daysBefore = getDaysBefore(monthDays[0].date, notesMap);
+    const daysAfter = getDaysAfter(monthDays[monthDays.length - 1].date, notesMap);
 
     return [...daysBefore, ...monthDays, ...daysAfter];
 }
 
-function getDaysOfMonth(currentMonth: Dayjs) {
+function getDaysOfMonth(currentMonth: Dayjs, notesMap = new Map<number, DiaryDto[]>()) {
     const output: DayModel[] = [];
     const allDays = currentMonth.daysInMonth();
 
@@ -55,7 +61,8 @@ function getDaysOfMonth(currentMonth: Dayjs) {
     while (count <= allDays) {
         const date = dayjs(new Date(currentMonth.year(), currentMonth.month(), count));
         const isToday = date.toISOString() === dayjs().startOf('day').toISOString();
-        const day = new DayModel(date, true, isToday);
+        const notes = notesMap.get(+date.toDate())
+        const day = new DayModel(date, true, isToday, notes);
         output.push(day);
         count++;
     }
@@ -63,14 +70,15 @@ function getDaysOfMonth(currentMonth: Dayjs) {
     return output;
 }
 
-function getDaysBefore(firstDay: Dayjs) {
+function getDaysBefore(firstDay: Dayjs, notesMap = new Map<number, DiaryDto[]>()) {
     const output: DayModel[] = [];
     const dayOfWeek = firstDay.isoWeekday();
 
     let count = 1;
     while (dayOfWeek !== count) {
         const date = firstDay.subtract(dayOfWeek - count, 'day');
-        const day = new DayModel(date, false, false);
+        const notes = notesMap.get(+date.toDate())
+        const day = new DayModel(date, false, false, notes);
         output.push(day);
         count++;
     }
@@ -78,7 +86,7 @@ function getDaysBefore(firstDay: Dayjs) {
     return output;
 }
 
-function getDaysAfter(lastDay: Dayjs) {
+function getDaysAfter(lastDay: Dayjs, notesMap = new Map<number, DiaryDto[]>()) {
     const output: DayModel[] = [];
     let dayOfWeek = lastDay.isoWeekday();
 
@@ -86,7 +94,8 @@ function getDaysAfter(lastDay: Dayjs) {
     let count = 7;
     while (dayOfWeek !== count) {
         const date = lastDay.add(dayIncrement++, 'day');
-        const day = new DayModel(date, false, false);
+        const notes = notesMap.get(+date.toDate())
+        const day = new DayModel(date, false, false, notes);
         output.push(day);
         dayOfWeek++;
     }

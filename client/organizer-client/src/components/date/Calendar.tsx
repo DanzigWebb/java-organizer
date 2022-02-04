@@ -6,6 +6,7 @@ import { Month } from './Month';
 import { CalendarNav } from './CalendarNav';
 import { useState } from 'react';
 import { DayModel } from './models/day.model';
+import { DiaryDto } from '../../services/api/requests/apiDiary';
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -16,6 +17,7 @@ type CalendarProps = {
     onNextMonthSelect?: (month: Dayjs) => void;
     onPrevMonthSelect?: (month: Dayjs) => void;
     onSelectDay?: (day: DayModel) => void;
+    notes?: Map<number, DiaryDto[]>;
 }
 
 export const Calendar = (props: CalendarProps) => {
@@ -25,6 +27,7 @@ export const Calendar = (props: CalendarProps) => {
         onNextMonthSelect = () => {},
         onPrevMonthSelect = () => {},
         onSelectDay = () => {},
+        notes = new Map()
     } = props;
 
     const [currentMonth, setMonth] = useState(month);
@@ -56,6 +59,7 @@ export const Calendar = (props: CalendarProps) => {
             <Month
                 month={currentMonth}
                 onSelectDay={daySelect}
+                notes={notes}
             />
         </div>
     );

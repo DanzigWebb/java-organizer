@@ -16,5 +16,5 @@ export const createDiary = (dto: DiaryDto) => {
 }
 
 export const getDiaryByRange = (from: Date, to: Date) => {
-    return httpClient.get<DiaryDto>(ApiUrlsEnum.DIARY, {params: {from: +from, to: +to}});
+    return httpClient.get<DiaryDto[]>(ApiUrlsEnum.DIARY, {params: {from: +from, to: +to}});
 }

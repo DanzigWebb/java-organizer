@@ -32,6 +32,13 @@ export const Day = (props: DayProps) => {
             <div className={`day ${classNames}`}>
                 {label}
             </div>
+
+            {
+                day.notes &&
+                <div className="day-status bg-accent-focus">
+                    {day.notes?.length}
+                </div>
+            }
         </div>
     );
 };

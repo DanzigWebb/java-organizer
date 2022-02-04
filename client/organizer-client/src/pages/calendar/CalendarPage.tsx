@@ -6,23 +6,40 @@ import { CreateNoteModal } from './components/CreateNoteModal';
 import { UnpackNestedValue } from 'react-hook-form';
 import { DiaryItemsType } from './models/diary.type';
 import { useLayoutEffect, useState } from 'react';
-import { getDiaryByRange } from '../../services/api/requests/apiDiary';
+import { DiaryDto, getDiaryByRange } from '../../services/api/requests/apiDiary';
 
 export const CalendarPage = () => {
 
     const [month, setMonth] = useState(dayjs());
+    const [diaryMap, setDiaryMap] = useState(new Map());
 
     useLayoutEffect(() => {
         getDiaries(month);
-    }, [])
-
+    }, []);
 
 
     async function getDiaries(month: Dayjs) {
         const from = month.startOf('month').toDate();
         const to = month.endOf('month').toDate();
         const response = await getDiaryByRange(from, to);
-        console.log(response.data);
+
+        const map = parseDiaries(response.data);
+        setDiaryMap(map);
+    }
+
+    function parseDiaries(diaries: DiaryDto[]): Map<number, DiaryDto[]> {
+        const map = new Map<number, DiaryDto[]>();
+        diaries.forEach((note) => {
+            const date = +new Date(note.day);
+            const mapDiaries = map.get(date);
+            if (mapDiaries) {
+                mapDiaries.push(note);
+            } else {
+                map.set(date, [note]);
+            }
+        });
+
+        return map;
     }
 
     function updateMonth(m: Dayjs) {
@@ -34,8 +51,8 @@ export const CalendarPage = () => {
         new Modal(<CreateNoteModal day={day} onCreateSubmit={onCreateNote}/>).show();
     }
 
-    function onCreateNote(data: UnpackNestedValue<DiaryItemsType>) {
-        console.log('create note', data);
+    async function onCreateNote(data: UnpackNestedValue<DiaryItemsType>) {
+        await getDiaries(month);
     }
 
     return (
@@ -44,6 +61,7 @@ export const CalendarPage = () => {
                 <div className="calendar-wrapper h-full flex flex-col">
                     <Calendar
                         month={month}
+                        notes={diaryMap}
                         onSelectDay={onSelectDay}
                         onPrevMonthSelect={updateMonth}
                         onNextMonthSelect={updateMonth}
