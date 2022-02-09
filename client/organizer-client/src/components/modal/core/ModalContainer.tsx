@@ -7,10 +7,11 @@ export interface ModalContainerProps {
     children: ReactNode;
     onClose: () => void;
     context: Modal;
+    widthClass?: string;
 }
 
 // Todo: добавить Fade анимацию на оверлей
-export const ModalContainer = ({children, onClose}: ModalContainerProps) => {
+export const ModalContainer = ({children, onClose, widthClass = ''}: ModalContainerProps) => {
     const [boxShow, setBoxShow] = useState(false);
 
     const duration = 140;
@@ -34,7 +35,7 @@ export const ModalContainer = ({children, onClose}: ModalContainerProps) => {
     return (
         <ModalContext.Provider value={{onClose: onStartClose}}>
             <div className="modal modal-open" onClick={onStartClose}>
-                <div className="modal-content" onClick={e => e.stopPropagation()}>
+                <div className={`modal-content ${widthClass}`} onClick={e => e.stopPropagation()}>
                     <SlideDownAnimation key={0} inProp={boxShow} duration={duration} length={length}>
                         {children}
                     </SlideDownAnimation>

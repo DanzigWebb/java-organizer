@@ -48,7 +48,10 @@ export const CalendarPage = () => {
     }
 
     function onSelectDay(day: DayModel) {
-        new Modal(<CreateNoteModal day={day} onCreateSubmit={onCreateNote}/>).show();
+        const modalComp = <CreateNoteModal day={day} onCreateSubmit={onCreateNote}/>;
+        const classes = 'w-11/12 md:w-9/12 lg:7/12';
+
+        new Modal(modalComp, classes).show();
     }
 
     async function onCreateNote(data: UnpackNestedValue<DiaryItemsType>) {
