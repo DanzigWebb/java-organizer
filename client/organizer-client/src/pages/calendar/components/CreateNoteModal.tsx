@@ -28,9 +28,9 @@ export const CreateNoteModal = (props: CreateNoteModalType) => {
     };
 
     return (
-        <div className="min-w-full">
+        <div className="w-full">
 
-            <div className="modal-box max-w-full">
+            <div className="modal-box bg-base-200 max-w-full">
                 <h3 className="text-xl pb-4 font-medium flex flex-col items-center">
                     <span>Создать заметку</span>
                     <span className="text-xs">{day.date.format('DD MMMM')}</span>

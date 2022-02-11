@@ -1,5 +1,5 @@
 import { Transition, TransitionStatus } from 'react-transition-group';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { Properties } from 'csstype';
 
 // Todo (1) добавить анимацию через namespace (если возможно) <Animation.SlideDown>
@@ -11,6 +11,7 @@ interface MenuAnimationProps {
     children: ReactNode;
     duration?: number;
     length?: number;
+    style?: CSSProperties
 }
 
 export const SlideDownAnimation = (props: MenuAnimationProps) => {
@@ -19,9 +20,11 @@ export const SlideDownAnimation = (props: MenuAnimationProps) => {
         children,
         duration = defaultDuration,
         length = 20,
+        style = {}
     } = props;
 
     const defaultStyle = {
+        ...style,
         transition: `all ${duration}ms ease-in-out`,
         opacity: 0,
     };

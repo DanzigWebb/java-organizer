@@ -51,10 +51,10 @@ export const CalendarPage = () => {
         const modalComp = <CreateNoteModal day={day} onCreateSubmit={onCreateNote}/>;
         const classes = 'w-11/12 md:w-9/12 lg:7/12';
 
-        new Modal(modalComp, classes).show();
+        new Modal(modalComp, classes, 'slider').show();
     }
 
-    async function onCreateNote(data: UnpackNestedValue<DiaryItemsType>) {
+    async function onCreateNote() {
         await getDiaries(month);
     }
 
