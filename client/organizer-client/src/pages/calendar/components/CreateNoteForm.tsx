@@ -1,8 +1,9 @@
 import { FormField } from '../../../components/form/FormField';
 import { FormError } from '../../../components/form/FormError';
-import React, { SyntheticEvent } from 'react';
+import { CSSProperties } from 'react';
 import { SubmitHandler, UnpackNestedValue, useForm } from 'react-hook-form';
 import { DiaryItemsType } from '../models/diary.type';
+import { Textarea } from '../../../components/form/Textarea';
 
 type Inputs = DiaryItemsType;
 
@@ -12,7 +13,7 @@ type CreateNoteFormProps = {
     isEdit?: boolean;
 }
 
-const textareaStyle:  React.CSSProperties = {
+const textareaStyle: CSSProperties = {
     resize: 'none',
     boxSizing: 'border-box',
     overflow: 'hidden',
@@ -20,7 +21,7 @@ const textareaStyle:  React.CSSProperties = {
 
 export const CreateNoteForm = (props: CreateNoteFormProps) => {
 
-    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
+    const {handleSubmit, control, formState: {errors}} = useForm<Inputs>();
 
     const {
         onSubmit,
@@ -38,28 +39,19 @@ export const CreateNoteForm = (props: CreateNoteFormProps) => {
         onSubmit(data);
     };
 
-    function autoSizeTextarea(e: SyntheticEvent) {
-        const target = e.target as HTMLTextAreaElement;
-        target.style.height = '30px';
-        target.style.height = `${target.scrollHeight}px`;
-    }
-
     return (
         <form className="w-full" onSubmit={handleSubmit(onSubmitForm)}>
 
             <FormField>
                 <label className="pb-1 font-sm">Ситуация</label>
 
-                <textarea
+                <Textarea
                     style={textareaStyle}
-                    rows={1}
                     placeholder="Опишите ситуацию, с которой вы столкнулись"
-                    className="input"
-                    autoComplete="off"
                     defaultValue={input.situation}
-                    {...register('situation', {required: true})}
-                    onInput={autoSizeTextarea}
-                    onFocus={autoSizeTextarea}
+                    control={control}
+                    name="situation"
+                    rules={{required: true}}
                 />
 
                 <FormError isShow={!!errors.situation}>Обязательное поле</FormError>
@@ -68,16 +60,13 @@ export const CreateNoteForm = (props: CreateNoteFormProps) => {
             <FormField>
                 <label className="pb-1 font-sm">Мысли</label>
 
-                <textarea
+                <Textarea
                     style={textareaStyle}
-                    rows={1}
                     placeholder="Опишите ваши мысли"
-                    className="input"
-                    autoComplete="off"
                     defaultValue={input.think}
-                    {...register('think', {required: true})}
-                    onInput={autoSizeTextarea}
-                    onFocus={autoSizeTextarea}
+                    control={control}
+                    name="think"
+                    rules={{required: true}}
                 />
 
                 <FormError isShow={!!errors.think}>Обязательное поле</FormError>
@@ -86,16 +75,13 @@ export const CreateNoteForm = (props: CreateNoteFormProps) => {
             <FormField>
                 <label className="pb-1 font-sm">Эмоции</label>
 
-                <textarea
+                <Textarea
                     style={textareaStyle}
-                    rows={1}
                     placeholder="Опишите ваши эмоции"
-                    className="input"
-                    autoComplete="off"
                     defaultValue={input.emotions}
-                    {...register('emotions', {required: true})}
-                    onInput={autoSizeTextarea}
-                    onFocus={autoSizeTextarea}
+                    control={control}
+                    name="emotions"
+                    rules={{required: true}}
                 />
 
                 <FormError isShow={!!errors.emotions}>Обязательное поле</FormError>
@@ -104,16 +90,13 @@ export const CreateNoteForm = (props: CreateNoteFormProps) => {
             <FormField>
                 <label className="pb-1 font-sm">Реакция</label>
 
-                <textarea
+                <Textarea
                     style={textareaStyle}
-                    rows={1}
                     placeholder="Опишите свою реакцию"
-                    className="input"
-                    autoComplete="off"
                     defaultValue={input.reaction}
-                    {...register('reaction', {required: true})}
-                    onInput={autoSizeTextarea}
-                    onFocus={autoSizeTextarea}
+                    control={control}
+                    name="reaction"
+                    rules={{required: true}}
                 />
 
                 <FormError isShow={!!errors.reaction}>Обязательное поле</FormError>
@@ -122,16 +105,13 @@ export const CreateNoteForm = (props: CreateNoteFormProps) => {
             <FormField>
                 <label className="pb-1 font-sm">Ощущение в теле</label>
 
-                <textarea
+                <Textarea
                     style={textareaStyle}
-                    rows={1}
                     placeholder="Опишите ощущения, которые появились в теле"
-                    className="input"
-                    autoComplete="off"
                     defaultValue={input.bodySensation}
-                    {...register('bodySensation', {required: true})}
-                    onInput={autoSizeTextarea}
-                    onFocus={autoSizeTextarea}
+                    control={control}
+                    name="bodySensation"
+                    rules={{required: true}}
                 />
 
                 <FormError isShow={!!errors.bodySensation}>Обязательное поле</FormError>
