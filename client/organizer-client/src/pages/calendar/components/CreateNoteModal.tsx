@@ -37,13 +37,8 @@ export const CreateNoteModal = (props: CreateNoteModalType) => {
                 </h3>
 
                 <TabGroup>
-                    <Tab label="Новая заметка" index={0}>
-                        <CreateNoteForm
-                            onSubmit={onSubmit}
-                        />
-                    </Tab>
                     {(day.notes || []).map((note, i) => (
-                        <Tab key={i + 1} index={i + 1} label={sliceText(note.situation)}>
+                        <Tab key={i + 1} index={i} label={sliceText(note.situation)}>
                             <CreateNoteForm
                                 key={i + 1}
                                 onSubmit={onSubmit}
@@ -51,6 +46,11 @@ export const CreateNoteModal = (props: CreateNoteModalType) => {
                             />
                         </Tab>
                     ))}
+                    <Tab label="Новая заметка" index={(day.notes || []).length + 1} defaultActive={true}>
+                        <CreateNoteForm
+                            onSubmit={onSubmit}
+                        />
+                    </Tab>
                 </TabGroup>
             </div>
         </div>
